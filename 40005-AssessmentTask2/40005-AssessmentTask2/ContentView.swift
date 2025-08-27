@@ -9,11 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "star.fill")
-            Text("This is a test!")
-        }
-        .padding()
+        HomeView()
     }
 }
 

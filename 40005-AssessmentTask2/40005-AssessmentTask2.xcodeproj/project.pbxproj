@@ -35,16 +35,6 @@
 			path = "40005-AssessmentTask2";
 			sourceTree = "<group>";
 		};
-		8D23E4B12E5B23F000A3110A /* 40005-AssessmentTask2Tests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "40005-AssessmentTask2Tests";
-			sourceTree = "<group>";
-		};
-		8D23E4BB2E5B23F000A3110A /* 40005-AssessmentTask2UITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "40005-AssessmentTask2UITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				8D23E4A32E5B23EF00A3110A /* 40005-AssessmentTask2 */,
-				8D23E4B12E5B23F000A3110A /* 40005-AssessmentTask2Tests */,
-				8D23E4BB2E5B23F000A3110A /* 40005-AssessmentTask2UITests */,
 				8D23E4A22E5B23EF00A3110A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				8D23E4B02E5B23F000A3110A /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8D23E4B12E5B23F000A3110A /* 40005-AssessmentTask2Tests */,
-			);
 			name = "40005-AssessmentTask2Tests";
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				8D23E4BA2E5B23F000A3110A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				8D23E4BB2E5B23F000A3110A /* 40005-AssessmentTask2UITests */,
 			);
 			name = "40005-AssessmentTask2UITests";
 			packageProductDependencies = (
