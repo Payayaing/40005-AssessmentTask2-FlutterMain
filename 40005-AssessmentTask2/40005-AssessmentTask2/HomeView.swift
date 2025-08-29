@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var allPokemon: [Pokemon] = []
+    @State var userPokemon: [Pokemon] = []
     @State var searchPokemon: String = ""
     
     var body: some View {
@@ -16,9 +16,9 @@ struct HomeView: View {
                 List {
                     
                 }
-                .searchable(text: $searchPokemon)
+                .searchable(text: $searchPokemon, prompt: "Search for your Pokemon")
                 .navigationTitle("Help me")
-                NavigationLink("Add New Pokemon", destination: SelectorView(allPokemon: $allPokemon))
+                NavigationLink("Add New Pokemon", destination: SelectorView(userPokemon: $userPokemon))
             }
             .padding()
         }
