@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokemonData: Decodable {
-    let species: String
+    let name: String
     let sprite: URL?
     
     enum CodingKeys: String, CodingKey {
@@ -19,7 +19,7 @@ struct PokemonData: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let speciesData = try container.decode(Species.self, forKey: .species)
-        self.species = speciesData.species
+        self.name = speciesData.name
         
         let spriteData = try container.decode(Sprite.self, forKey: .sprites)
         self.sprite = URL(string: spriteData.sprite)
@@ -27,7 +27,7 @@ struct PokemonData: Decodable {
 }
 
 private struct Species: Codable {
-    let species: String
+    let name: String
 }
 
 private struct Sprite: Codable {

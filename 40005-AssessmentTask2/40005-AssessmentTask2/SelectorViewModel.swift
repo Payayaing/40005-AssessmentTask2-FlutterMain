@@ -9,11 +9,10 @@ import SwiftUI
 class SelectorViewModel: ObservableObject {
     @Published var pokemonNames: [String] = []
     @Published var filteredPokemonNames: [String] = []
+    let decoder = JSONDecoder()
     
     func loadPokemonList() async {
-        let decoder = JSONDecoder()
-        let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0")!
-        
+        let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0")!
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try decoder.decode(PokemonList.self, from: data)
@@ -21,6 +20,18 @@ class SelectorViewModel: ObservableObject {
             self.filteredPokemonNames = response.results.map { $0.name }
         } catch {
             print("Failed to load Pokemon list: \(error)")
+        }
+    }
+    
+    func getPokemonData(pokemonName: String) async -> PokemonData? {
+        let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(pokemonName)")!
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try decoder.decode(PokemonData.self, from: data)
+            return response
+        } catch {
+            print("Failed to load Pokemon data: \(error)")
+            return nil
         }
     }
     

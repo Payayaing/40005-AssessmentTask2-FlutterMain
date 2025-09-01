@@ -13,15 +13,11 @@ struct SelectorView: View {
     @StateObject private var viewModel = SelectorViewModel()
     @Binding var userPokemon: [Pokemon]
     @State var pokemonNameList: [String] = []
-    
+    @Environment(\.dismiss) var dismiss
     @State var isLoading = true
     
     var body: some View {
         VStack {
-            Text("Select A Pokemon")
-                .font(.title)
-                .padding()
-            
             if isLoading {
                 VStack {
                     Spacer()
@@ -31,7 +27,13 @@ struct SelectorView: View {
             } else {
                 List(viewModel.pokemonNames, id: \.self) { pokemonName in
                     Button(action: {
-                        
+                        Task {
+                            let pokemonData = await viewModel.getPokemonData(pokemonName: pokemonName)
+                            if let pokemonData = pokemonData {
+                                userPokemon.append(Pokemon(pokemonData: pokemonData))
+                            }
+                            dismiss()
+                        }
                     }) {
                         HStack {
                             AsyncImage(url: getSpriteUrl(pokemonName: pokemonName))
@@ -39,6 +41,7 @@ struct SelectorView: View {
                         }
                     }
                 }
+                .searchable(text: $searchPokemon)
             }
         }
         .onAppear(perform: {
