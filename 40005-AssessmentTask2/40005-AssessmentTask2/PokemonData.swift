@@ -21,7 +21,7 @@ struct PokemonData: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let speciesData = try container.decode(SpeciesWrapper.self, forKey: .species)
-        self.name = speciesData.name
+        self.name = Pokemon.formatName(pokemonName: speciesData.name)
         
         let spriteData = try container.decode(SpriteWrapper.self, forKey: .sprites)
         self.sprite = URL(string: spriteData.sprite)
@@ -58,6 +58,33 @@ private struct MoveWrapper: Codable {
 
 struct PokemonMove: Codable, Hashable {
     let name: String
+    
+    func formatMove() -> String {
+        let customFormat = [
+            "lands-wrath": "Land's Wrath",
+            "baby-doll-eyes": "Baby-Doll Eyes",
+            "forests-curse": "Forest's Curse",
+            "freeze-dry": "Freeze-Dry",
+            "lock-on": "Lock-On",
+            "mud-slap": "Mud-Slap",
+            "multi-attack": "Multi-Attack",
+            "natures-madness": "Nature's Madness",
+            "power-up-punch": "Power-Up Punch",
+            "self-destruct": "Self-Destruct",
+            "trick-or-treat": "Trick-Or-Treat",
+            "u-turn": "U-Turn",
+            "v-create": "V-Create",
+            "wake-up-slap": "Wake-Up Slap",
+            "will-o-wisp": "Will-O-Wisp",
+            "x-scissor": "X-Scissor"
+        ]
+
+        if let new = customFormat[self.name] {
+            return new
+        } else {
+            return self.name.replacingOccurrences(of: "-", with: " ").capitalized
+        }
+    }
 }
 
 // Unwrapping type data.

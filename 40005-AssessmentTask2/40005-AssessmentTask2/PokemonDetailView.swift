@@ -13,10 +13,17 @@ struct PokemonDetailView: View {
     var body: some View {
         VStack {
             AsyncImage(url: pokemon.pokemonData.sprite)
+
             Text(pokemon.pokemonData.name)
+
+            TextField("", text: $pokemon.nickname)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
+                .autocorrectionDisabled(true)
+
             Picker("Move", selection: $pokemon.move1) {
                 ForEach(pokemon.pokemonData.moves, id:\.name) { move in
-                    Text(move.name)
+                    Text("\(move.formatMove())")
                         .tag(move)
                 }
             }

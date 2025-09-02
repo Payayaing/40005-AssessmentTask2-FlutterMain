@@ -19,7 +19,11 @@ struct HomeView: View {
                 List {
                     ForEach($userPokemon.userPokemon, id: \.pokemonData.name) { $pokemon in
                         NavigationLink(destination: PokemonDetailView(pokemon: $pokemon)) {
-                            Text(pokemon.pokemonData.name)
+                            if pokemon.nickname == pokemon.pokemonData.name {
+                                Text(pokemon.nickname)
+                            } else {
+                                Text("\(pokemon.nickname) (\(pokemon.pokemonData.name))")
+                            }
                         }
                     }
                     .onDelete(perform: userPokemon.deletePokemon)
