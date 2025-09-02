@@ -14,6 +14,12 @@ struct PokemonDetailView: View {
         VStack {
             AsyncImage(url: pokemon.pokemonData.sprite)
             Text(pokemon.pokemonData.name)
+            Picker("Move", selection: $pokemon.move1) {
+                ForEach(pokemon.pokemonData.moves, id:\.name) { move in
+                    Text(move.name)
+                        .tag(move)
+                }
+            }
         }
     }
 }

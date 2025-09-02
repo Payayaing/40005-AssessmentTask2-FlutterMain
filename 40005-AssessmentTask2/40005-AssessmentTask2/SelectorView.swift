@@ -40,7 +40,9 @@ struct SelectorView: View {
                         Task {
                             let pokemonData = await pokemonList.getPokemonData(pokemonName: pokemonName)
                             if let pokemonData = pokemonData {
-                                userPokemon.addPokemon(newPokemon: (Pokemon(pokemonData: pokemonData)))
+                                print("Got Pokemon Data: \(pokemonData.name)")
+                                let newPokemon = Pokemon(pokemonData: pokemonData)
+                                userPokemon.addPokemon(newPokemon: newPokemon)
                             }
                             dismiss()
                         }
