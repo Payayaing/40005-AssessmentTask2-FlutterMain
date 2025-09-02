@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    @State var pokemon: Pokemon
+    @Binding var pokemon: Pokemon
     
     var body: some View {
-        Text(pokemon.pokemonData.name)
+        VStack {
+            AsyncImage(url: pokemon.pokemonData.sprite)
+            Text(pokemon.pokemonData.name)
+        }
     }
 }

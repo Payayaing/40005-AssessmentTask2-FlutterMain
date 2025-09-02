@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var userPokemon: [Pokemon] = []
+    @StateObject var userPokemon = HomeViewModel()
     @State var searchPokemon: String = ""
     
     var body: some View {
@@ -17,13 +17,14 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .bold()
                 List {
-                    ForEach(userPokemon) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
+                    ForEach($userPokemon.userPokemon, id: \.pokemonData.name) { $pokemon in
+                        NavigationLink(destination: PokemonDetailView(pokemon: $pokemon)) {
                             Text(pokemon.pokemonData.name)
                         }
                     }
+                    .onDelete(perform: userPokemon.deletePokemon)
                 }
-                NavigationLink("Add New Pokemon", destination: SelectorView(userPokemon: $userPokemon))
+                NavigationLink("Add New Pokemon", destination: SelectorView(userPokemon: userPokemon))
             }
             .padding()
         }

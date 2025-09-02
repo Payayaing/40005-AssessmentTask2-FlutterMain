@@ -8,16 +8,26 @@
 import SwiftUI
 
 struct SelectorView: View {
-    
-    @State var searchPokemon: String = ""
-    @StateObject private var viewModel = SelectorViewModel()
-    @Binding var userPokemon: [Pokemon]
-    @State var pokemonNameList: [String] = []
+    @State var searchQuery: String = ""
+    @ObservedObject private var pokemonList = SelectorViewModel()
+    @ObservedObject var userPokemon: HomeViewModel
     @Environment(\.dismiss) var dismiss
     @State var isLoading = true
     
     var body: some View {
         VStack {
+            Text("Select Pokemon")
+                .font(.largeTitle)
+                .bold()
+            
+            TextField("Search", text: $searchQuery)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
+                .onChange(of: searchQuery) { old, new in
+                    pokemonList.updateFilteredList(with: new)
+                }
+                .autocorrectionDisabled(true)
+            
             if isLoading {
                 VStack {
                     Spacer()
@@ -25,12 +35,12 @@ struct SelectorView: View {
                     Spacer()
                 }
             } else {
-                List(viewModel.pokemonNames, id: \.self) { pokemonName in
+                List($pokemonList.filteredPokemonNames, id: \.self) { $pokemonName in
                     Button(action: {
                         Task {
-                            let pokemonData = await viewModel.getPokemonData(pokemonName: pokemonName)
+                            let pokemonData = await pokemonList.getPokemonData(pokemonName: pokemonName)
                             if let pokemonData = pokemonData {
-                                userPokemon.append(Pokemon(pokemonData: pokemonData))
+                                userPokemon.addPokemon(newPokemon: (Pokemon(pokemonData: pokemonData)))
                             }
                             dismiss()
                         }
@@ -41,20 +51,19 @@ struct SelectorView: View {
                         }
                     }
                 }
-                .searchable(text: $searchPokemon)
             }
         }
+        .padding()
         .onAppear(perform: {
             Task {
-                await viewModel.loadPokemonList()
-                pokemonNameList = viewModel.fetchPokemonList()
+                await pokemonList.loadPokemonList()
                 isLoading = false
             }
         })
     }
     
     private func getSpriteUrl(pokemonName: String) -> URL? {
-        guard let pokemonDexNum = viewModel.getPokemonDexNum(pokemonName: pokemonName) else {
+        guard let pokemonDexNum = pokemonList.getPokemonDexNum(pokemonName: pokemonName) else {
             return nil
         }
         return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonDexNum).png")
