@@ -14,7 +14,7 @@ struct PokemonData: Decodable {
     let types: [PokemonType]
     
     enum CodingKeys: String, CodingKey {
-        case species, sprites, moves, types, stats
+        case species, sprites, moves, types
     }
     
     init(from decoder: Decoder) throws {
