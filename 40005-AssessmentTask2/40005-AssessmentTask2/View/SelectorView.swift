@@ -20,13 +20,16 @@ struct SelectorView: View {
                 .font(.largeTitle)
                 .bold()
             
-            TextField("Search", text: $searchQuery)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-                .onChange(of: searchQuery) { old, new in
-                    pokemonList.updateFilteredList(with: new)
-                }
-                .autocorrectionDisabled(true)
+            HStack {
+                Image(systemName: "magnifyingglass")
+                TextField("Search", text: $searchQuery)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal, 10)
+                    .onChange(of: searchQuery) { old, new in
+                        pokemonList.updateFilteredList(with: new)
+                    }
+                    .autocorrectionDisabled(true)
+            }
             
             if isLoading {
                 VStack {
@@ -47,11 +50,13 @@ struct SelectorView: View {
                         }
                     }) {
                         HStack {
-                            AsyncImage(url: getSpriteUrl(pokemonName: pokemonName))
+                            AsyncImage(url: getSpriteUrl(pokemonName: pokemonName)) 
                             Text(pokemonName.capitalized)
+                                .font(.headline)
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
             }
         }
         .padding()
@@ -63,6 +68,7 @@ struct SelectorView: View {
                 isLoading = false
             }
         })
+        .accentColor(.black)
     }
     
     private func getSpriteUrl(pokemonName: String) -> URL? {

@@ -19,7 +19,7 @@ class SelectorViewModel: ObservableObject, Filterable {
             let response = try decoder.decode(PokemonList.self, from: data)
             return response.results.map({ $0.name })
         } catch {
-            // print("Failed to load Pokemon list: \(error)")
+            print("Failed to load Pokemon list: \(error)")
             return nil
         }
     }
