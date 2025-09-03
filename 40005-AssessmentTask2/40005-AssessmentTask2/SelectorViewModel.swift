@@ -6,30 +6,39 @@
 //
 import SwiftUI
 
-class SelectorViewModel: ObservableObject {
+class SelectorViewModel: ObservableObject, Filterable {
     @Published var pokemonNames: [String] = []
     @Published var filteredPokemonNames: [String] = []
     
     let decoder = JSONDecoder()
     
-    func loadPokemonList() async {
-        let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0")!
+    func fetchPokemonList() async -> [String]? {
+        let url = URL(string: "https://pokeapi.co/api/v2/pokemon-species?limit=1025&offset=0")!
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try decoder.decode(PokemonList.self, from: data)
-            self.pokemonNames = response.results.map{ $0.name }
-            self.filteredPokemonNames = self.pokemonNames
+            return response.results.map({ $0.name })
         } catch {
-            print("Failed to load Pokemon list: \(error)")
+            // print("Failed to load Pokemon list: \(error)")
+            return nil
         }
     }
     
-    func updateFilteredList(with searchText: String) {
-        if searchText.isEmpty {
-            self.filteredPokemonNames = self.pokemonNames
+    func loadPokemonList(names: [String]) {
+        self.pokemonNames = names
+        self.filteredPokemonNames = names
+    }
+
+    func filterOn(_ query: String) -> [String] {
+        if query.isEmpty {
+            return self.pokemonNames
         } else {
-            self.filteredPokemonNames = pokemonNames.filter { $0.lowercased().contains(searchText.lowercased()) }
+            return self.pokemonNames.filter { $0.lowercased().contains(query.lowercased()) }
         }
+    }
+
+    func updateFilteredList(with searchText: String) {
+        self.filteredPokemonNames = filterOn(searchText)
     }
     
     func getPokemonData(pokemonName: String) async -> PokemonData? {

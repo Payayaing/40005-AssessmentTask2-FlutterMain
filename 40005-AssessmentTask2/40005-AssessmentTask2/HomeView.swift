@@ -19,10 +19,16 @@ struct HomeView: View {
                 List {
                     ForEach($userPokemon.userPokemon, id: \.pokemonData.name) { $pokemon in
                         NavigationLink(destination: PokemonDetailView(pokemon: $pokemon)) {
-                            if pokemon.nickname == pokemon.pokemonData.name {
-                                Text(pokemon.nickname)
-                            } else {
-                                Text("\(pokemon.nickname) (\(pokemon.pokemonData.name))")
+                            HStack {
+                                AsyncImage(url: pokemon.pokemonData.sprite)
+                                
+                                if pokemon.nickname == pokemon.pokemonData.name {
+                                    Text(pokemon.nickname)
+                                } else {
+                                    Text("\(pokemon.nickname) (\(pokemon.pokemonData.name))")
+                                }
+                                Spacer()
+                                Image(systemName: pokemon.isFavourite ? "star.fill" : "star")
                             }
                         }
                     }

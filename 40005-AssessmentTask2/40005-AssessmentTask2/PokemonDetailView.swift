@@ -12,19 +12,61 @@ struct PokemonDetailView: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: pokemon.pokemonData.sprite)
-
-            Text(pokemon.pokemonData.name)
+            HStack {
+                AsyncImage(url: pokemon.pokemonData.sprite)
+                    .frame(width: 50, height: 50)
+                Text(pokemon.pokemonData.name)
+                Button(action: {
+                    pokemon.toggleFavourite()
+                }) {
+                    Image(systemName: pokemon.isFavourite ? "star.fill" : "star")
+                }
+            }
+            .padding()
+            
+            HStack {
+                ForEach(pokemon.pokemonData.types, id:\.name) { type in
+                    Text(type.format())
+                        .background(type.getBackgroundColour())
+                        .foregroundColor(type.getForegroundColour())
+                        .cornerRadius(10)
+                }
+            }
 
             TextField("", text: $pokemon.nickname)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
                 .autocorrectionDisabled(true)
-
-            Picker("Move", selection: $pokemon.move1) {
-                ForEach(pokemon.pokemonData.moves, id:\.name) { move in
-                    Text("\(move.formatMove())")
-                        .tag(move)
+            
+            Grid {
+                GridRow {
+                    Picker("Move", selection: $pokemon.selectedMoves[0]) {
+                        ForEach(pokemon.pokemonData.moves, id:\.name) { move in
+                            Text("\(move.format())")
+                                .tag(move)
+                        }
+                    }
+                    Picker("Move", selection: $pokemon.selectedMoves[1]) {
+                        ForEach(pokemon.pokemonData.moves, id:\.name) { move in
+                            Text("\(move.format())")
+                                .tag(move)
+                        }
+                    }
+                }
+                
+                GridRow {
+                    Picker("Move", selection: $pokemon.selectedMoves[2]) {
+                        ForEach(pokemon.pokemonData.moves, id:\.name) { move in
+                            Text("\(move.format())")
+                                .tag(move)
+                        }
+                    }
+                    Picker("Move", selection: $pokemon.selectedMoves[3]) {
+                        ForEach(pokemon.pokemonData.moves, id:\.name) { move in
+                            Text("\(move.format())")
+                                .tag(move)
+                        }
+                    }
                 }
             }
         }
