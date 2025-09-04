@@ -6,7 +6,7 @@
 * Fully functional on **iPad** as well.
 
 ## Installation
-1. Clone this repository using the link: `https://github.com/Payayaing/40005-AssessmentTask2-FlutterMains.git`
+1. Clone this repository using the link: `https://github.com/Payayaing/40005-AssessmentTask2-FlutterMain.git`
 2. Open the project in XCode.
 3. Select a simulator: recommended on **iPhone 16 Pro** but was also tested on **iPad**. 
 4. Run the application.
