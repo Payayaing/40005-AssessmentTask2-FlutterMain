@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUICore
 
+// Colour extension that allows a Color to be initialised using a hex code, allowing for increased
+// colour flexibility and customisation options.
 extension Color {
     static let primary: Color = .init(hex: 0x3b3b3b)
     

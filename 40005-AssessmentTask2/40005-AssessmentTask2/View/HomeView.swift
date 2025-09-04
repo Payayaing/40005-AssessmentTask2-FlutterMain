@@ -25,7 +25,7 @@ struct HomeView: View {
                     Spacer()
                 } else {
                     List {
-                        ForEach($userPokemon.userPokemon, id: \.pokemonData.name) { $pokemon in
+                        ForEach($userPokemon.userPokemon) { $pokemon in
                             NavigationLink(destination: PokemonDetailView(pokemon: $pokemon)) {
                                 HStack {
                                     AsyncImage(url: pokemon.pokemonData.sprite)

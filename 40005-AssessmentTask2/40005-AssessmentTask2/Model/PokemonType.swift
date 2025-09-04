@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+// Struct to hold information regarding Pokemon types.
 struct PokemonType: Codable, Formatable {
     let name: String
     
+    // Type name can be formatted, so conform to Formatable protocol. Since all Pokemon types are simply one word, the only formatting that needs to be done is capitalising the type name.
     static func format(name: String) -> String {
         return name.capitalized
     }
@@ -18,6 +20,8 @@ struct PokemonType: Codable, Formatable {
         return PokemonType.format(name: self.name)
     }
     
+    // Official Pokemon Type background colours to be used when displaying Pokemon types on the
+    // PokemonDetailView.
     func getBackgroundColour() -> Color {
         switch (self.name) {
         case "normal":
@@ -61,6 +65,8 @@ struct PokemonType: Codable, Formatable {
         }
     }
     
+    // Lighter tone official Pokemon type colour to be used for List background and PokemonDetailView background.
+    // Background colour is based on the Pokemon's primary type.
     func getLighterBackgroundColour() -> Color {
         switch self.name {
         case "normal":
@@ -104,7 +110,8 @@ struct PokemonType: Codable, Formatable {
         }
     }
 
-    
+    // Depending on the Pokemon type, what colour text should be displayed above it, as some types have
+    // too dark a colour to keep the text black. Make these white instead.
     func getForegroundColour() -> Color {
         switch self.name {
         case "normal", "fighting", "poison", "rock", "bug", "ghost", "psychic", "dragon", "dark":

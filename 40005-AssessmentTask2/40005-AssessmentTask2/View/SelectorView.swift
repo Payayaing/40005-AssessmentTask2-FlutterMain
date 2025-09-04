@@ -51,7 +51,7 @@ struct SelectorView: View {
                     }) {
                         HStack {
                             AsyncImage(url: getSpriteUrl(pokemonName: pokemonName)) 
-                            Text(pokemonName.capitalized)
+                            Text(Pokemon.format(name: pokemonName))
                                 .font(.headline)
                         }
                     }
@@ -63,7 +63,7 @@ struct SelectorView: View {
         .onAppear(perform: {
             Task {
                 if let pokemonNames = await pokemonList.fetchPokemonList() {
-                    pokemonList.loadPokemonList(names: pokemonNames)
+                    pokemonList.loadPokemonList(nameToId: pokemonNames)
                 }
                 isLoading = false
             }
@@ -72,9 +72,9 @@ struct SelectorView: View {
     }
     
     private func getSpriteUrl(pokemonName: String) -> URL? {
-        guard let pokemonDexNum = pokemonList.getPokemonDexNum(pokemonName: pokemonName) else {
+        guard let pokemonApiNum = pokemonList.getPokemonApiNum(pokemonName: pokemonName) else {
             return nil
         }
-        return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonDexNum).png")
+        return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonApiNum).png")
     }
 }

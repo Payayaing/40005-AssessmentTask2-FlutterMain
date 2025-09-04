@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+// Struct to hold information regarding Pokemon moves, mainly just the name of the move itself and formatting functions.
 struct PokemonMove: Codable, Hashable, Comparable, Formatable {
     let name: String
     
+    // When visually displaying the Pokemon moves, they should be formatted correctly. Some moves require custom formatting, and this is implementing using the kebab-case move names obtained from the API as the dictionary key, and the formatted version as its value.
     static func format(name: String) -> String {
         let customFormat = [
             "lands-wrath": "Land's Wrath",
@@ -41,7 +43,7 @@ struct PokemonMove: Codable, Hashable, Comparable, Formatable {
         return PokemonMove.format(name: self.name)
     }
     
-    // Allowing pokemon moves to be sorted
+    // To allow Pokemon moves to be selected using a Picker, they must conform to Comparable, which is what these methods are implementing.
     static func < (lhs: PokemonMove, rhs: PokemonMove) -> Bool {
         return lhs.name < rhs.name
     }
