@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// HomeViewModel stores information pertaining to the Pokemon list on the HomeView. This allows for easy management by tracking a persistent list of Pokemon. This View Model also supports adding and deleting Pokemon.
 class HomeViewModel: ObservableObject {
     @Published var userPokemon: [Pokemon] = []
     

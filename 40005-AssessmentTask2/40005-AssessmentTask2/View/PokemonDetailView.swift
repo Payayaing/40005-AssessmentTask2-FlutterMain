@@ -15,6 +15,7 @@ struct PokemonDetailView: View {
             pokemon.pokemonData.types[0].getLighterBackgroundColour().ignoresSafeArea()
             VStack {
                 HStack {
+                    // Resizing the Pokemon sprite to take up more of the screen.
                     AsyncImage(url: pokemon.pokemonData.sprite) { result in
                         result.image?
                             .resizable()
@@ -35,6 +36,7 @@ struct PokemonDetailView: View {
                         }
                         .padding(.horizontal, 5)
                         
+                        // For each type that the Pokemon could have (1 or 2), display them as Text and use the corresponding background and foreground colours.
                         HStack {
                             ForEach(pokemon.pokemonData.types, id:\.name) { type in
                                 Text(type.format())
@@ -49,6 +51,7 @@ struct PokemonDetailView: View {
                 }
                 .padding()
                 
+                // Allows the user to efficiently edit their Pokemon's nickname.
                 HStack {
                     Text("Nickname:")
                         .font(.headline)
@@ -60,6 +63,7 @@ struct PokemonDetailView: View {
                 .padding()
                 .padding(.bottom, 50)
                 
+                // Each PokemonMove is laid out in a Grid, with each move having its own Picker.
                 Grid {
                     GridRow {
                         Picker("Move", selection: $pokemon.selectedMoves[0]) {

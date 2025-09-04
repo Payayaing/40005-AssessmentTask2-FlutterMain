@@ -6,21 +6,28 @@
 //
 import SwiftUI
 
+// This View Model controls the SelectorView by handling the necessary data types needed for the full Pokemon list.
 class SelectorViewModel: ObservableObject, Filterable {
+    
+    // Not only are the Pokemon names needed for the list, a list of IDs (as Int) are needed as well. These IDs are used to specify the API endpoint needed for obtaining the Pokemon sprite. This dictionary allows for quick lookup of ID when given a Pokemon name.
     @Published var nameToId: [String : Int] = [:]
+    
+    // The list of Pokemon names is used as a reference point for the filtered list, allowing it to be easily reset to default state. This list can be filtered based on a user query. The filtered list is the list shown on the SelectorView.
     @Published var pokemonNames: [String] = []
     @Published var filteredPokemonNames: [String] = []
     
+    // Defining a JSONDecoder to decode PokeAPI information used in the fetchPokemonList() and getPokemonData() async functions.
     let decoder = JSONDecoder()
     
-    // Fetches the full Pokemon names list, and also assigns them the correct API ID so that the sprites
-    // can be easily obtained.
+    // Fetches the full Pokemon names and ID dictionary.
     func fetchPokemonList() async -> [String : Int]? {
-        let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0")!
+        // Pokemon alternate forms should be included as some are crucial to builds (such as specific Arceus forms, Ogerpon forms, and etc.)
+        let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=20000&offset=0")!
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try decoder.decode(PokemonList.self, from: data)
             
+            // For each result in the Decoder response, check whether it should be excluded. If not, obtain the API ID from the URL and add these values in the dictionary. Then return this full dictionary.
             var nameToId: [String : Int] = [:]
             for result in response.results {
                 if excludeResult(name: result.name) {
@@ -49,7 +56,7 @@ class SelectorViewModel: ObservableObject, Filterable {
         return excludedResults.contains(where: name.contains)
     }
     
-    // After the full list is fetched, assigns the internal Published variables.
+    // After the full list is fetched, assigns the internal Published variables. As Dictionary types are unordered, it should be sorted by the API ID (in most cases, this corresponds to the Pokedex order).
     func loadPokemonList(nameToId: [String : Int]) {
         self.nameToId = nameToId
         
@@ -58,6 +65,7 @@ class SelectorViewModel: ObservableObject, Filterable {
         self.filteredPokemonNames = sortedPokemonNames
     }
 
+    // When provided a query String from the user, filter the full Pokemon list based on whether it contains the query string.
     func filterOn(_ searchText: String) -> [String] {
         if searchText.isEmpty {
             return self.pokemonNames
@@ -66,10 +74,12 @@ class SelectorViewModel: ObservableObject, Filterable {
         }
     }
 
+    // Linked to the TextField .onChange() listener.
     func updateFilteredList(with searchText: String) {
         self.filteredPokemonNames = filterOn(searchText)
     }
     
+    // Fetch PokemonData depending on the Pokemon name. This is used to create Pokemon objects when interacting with the Pokemon names list. Every Pokemon in theory should have accessible PokemonData, but if not, do not crash the application.
     func getPokemonData(pokemonName: String) async -> PokemonData? {
         let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(pokemonName)")!
         do {
@@ -82,6 +92,7 @@ class SelectorViewModel: ObservableObject, Filterable {
         }
     }
     
+    // Obtains the Pokemon's API number from the nameToId dictionary when provided its name.
     func getPokemonApiNum(pokemonName: String) -> Int? {
         guard let id = self.nameToId[pokemonName] else {
             return nil
