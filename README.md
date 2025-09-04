@@ -1,11 +1,15 @@
 # FlutterMain (40005 Assessment Task 2)
-FlutterMain, whose name is inspired by the Paradox Pokemon Flutter Mane, is a convenient and intuitive application which stores Pokemon builds. Users are able to select a specific Pokemon from a filterable list to add to their build list, then can view and customise their build.
+**FlutterMain** is a convenient and intuitive iOS application which stores Pokemon builds, named after the Paradox Pokemon Flutter Mane. It allows users to store and customise Pokémon builds. Users can filter through a full Pokémon list to add to their personalised build list, and can edit Pokémon information from the Home screen.
 
 ## Supporting Platforms
-This application is supported on the Apple iOS platform - specifically designed for iPhone 16 Pro - but is also functional on iPad.
+* Designed for **iPhone 16 Pro**.
+* Fully functional on **iPad** as well.
 
 ## Installation
-1. Clone this repository using the link: `https://github.com/Payayaing/40005-AssessmentTask2`
-2. Use XCode to open the folder.
-3. Set device to iPhone 16 Pro or chosen iPad configuration.
-4. Run.
+1. Clone this repository using the link: `https://github.com/Payayaing/40005-AssessmentTask2-FlutterMains.git`
+2. Open the project in XCode.
+3. Select a simulator: recommended on **iPhone 16 Pro** but was also tested on **iPad**. 
+4. Run the application.
+
+## Testing
+* Developed and tested on **XCode Version 16.4**.
